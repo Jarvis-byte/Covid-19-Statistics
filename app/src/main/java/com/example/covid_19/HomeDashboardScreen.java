@@ -130,7 +130,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
         }
         configureToolbar(toolbar);
 
-
+//declare
         confirmed_number = findViewById(R.id.confirmed_number);
         active_number = findViewById(R.id.active_number);
         recovered_number = findViewById(R.id.recovered_number);
