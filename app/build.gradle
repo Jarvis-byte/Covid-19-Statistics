@@ -60,4 +60,8 @@ dependencies {
 
     //Image Slider
     implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
+
+    //Charts(MPCharts)
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
 }

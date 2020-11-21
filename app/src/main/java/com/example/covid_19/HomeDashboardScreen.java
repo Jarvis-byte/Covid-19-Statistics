@@ -1,6 +1,7 @@
 package com.example.covid_19;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,9 +18,20 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +60,11 @@ public class HomeDashboardScreen extends AppCompatActivity {
     ImageView Country_flag, toolbar_image;
     String welcomemessage;
     ProgressBar Progress_Login_in;
+    boolean onCardClick = true;
     private Toolbar toolbar;
+    private LineChart mChart;
+    private CardView CardView_Line_Graph, first_card;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +74,24 @@ public class HomeDashboardScreen extends AppCompatActivity {
         toolbar_image = findViewById(R.id.toolbar_image);
         ImageSlider imageSlider = findViewById(R.id.slider);
         Progress_Login_in = findViewById(R.id.Progress_Login_in);
+        mChart = findViewById(R.id.lineChart);
+        CardView_Line_Graph = findViewById(R.id.CardView_Line_Graph);
+        first_card = findViewById(R.id.first_card);
+        first_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onCardClick) {
+                    onCardClick = false;
+                    CardView_Line_Graph.setVisibility(View.VISIBLE);
+
+                } else {
+                    CardView_Line_Graph.setVisibility(View.GONE);
+                    onCardClick = true;
+                }
+            }
+        });
+
+
         List<SlideModel> slideModels = new ArrayList<>();
         slideModels.add(new SlideModel(R.drawable.wear_mask, "Wear a mask.Save lives"));
         slideModels.add(new SlideModel(R.drawable.no_contact, "No Contact"));
@@ -95,10 +129,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
 
         }
         configureToolbar(toolbar);
-//        Glide.with(HomeDashboardScreen.this)
-//                .load("https://www.countryflags.io/in/shiny/64.png")
-//                .fitCenter()
-//                .into(Country_flag);
+
 
         confirmed_number = findViewById(R.id.confirmed_number);
         active_number = findViewById(R.id.active_number);
@@ -118,6 +149,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
         getCovidGlobalApi();
         getCovidIndiaApi();
         getFlagIndiaApi();
+        getCovidIndiaCasesStartupGraph();
         btn_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +158,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
                     country.requestFocus();
                 } else {
                     if (btn_change.getText().toString().equalsIgnoreCase("Change")) {
+                        btn_change.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_search_24, 0, 0, 0);
                         btn_change.setText("Search");
                         country.setEnabled(true);
                         country.requestFocus();
@@ -133,19 +166,22 @@ public class HomeDashboardScreen extends AppCompatActivity {
                         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                         country.setText("");
                     } else if (btn_change.getText().toString().equalsIgnoreCase("Search")) {
+
                         btn_change.setText("Change");
                         country.setEnabled(false);
                         country.clearFocus();
                         HomeDashboardScreen.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                         Progress_Login_in.setVisibility(View.VISIBLE);
                         btn_change.setVisibility(View.INVISIBLE);
-                        getCovidCountryWiseApi(country.getText().toString());
-                        getFlagCovidApi(country.getText().toString());
+                        getCovidCountryWiseApi(country.getText().toString().trim());
+                        getFlagCovidApi(country.getText().toString().trim());
+                        getCovidCountrywiseAllCases(country.getText().toString().trim());
                     }
                 }
 
             }
         });
+
 
     }
 
@@ -607,5 +643,185 @@ public class HomeDashboardScreen extends AppCompatActivity {
         });
 
 
+    }
+
+    public void LineChart(ArrayList<Entry> yValues, ArrayList<Entry> yRecovered, ArrayList<Entry> yDeaths) {
+
+        mChart.setDragEnabled(true);
+        mChart.setScaleEnabled(true);
+        Description description = new Description();
+        description.setText("Months Wise");
+        mChart.setDescription(description);
+        mChart.getAxisRight().setEnabled(false);
+        mChart.setDrawGridBackground(true);
+        //mChart.setGridBackgroundColor(Color.CYAN);
+        mChart.setDrawBorders(true);
+        mChart.getDescription().setEnabled(false);
+
+        LineDataSet set1 = new LineDataSet(yValues, "Infected");
+        LineDataSet set2 = new LineDataSet(yRecovered, "Recovered");
+        LineDataSet set3 = new LineDataSet(yDeaths, "Deaths");
+        set1.setCircleColors(Color.BLACK);
+        set1.setFillAlpha(110);
+        set1.setColor(Color.RED);
+        set1.setLineWidth(3f);
+        set1.setDrawFilled(true);
+        set1.setDrawValues(false);
+
+
+        set2.setColor(Color.BLACK);
+        set2.setFillAlpha(110);
+        set2.setLineWidth(3f);
+        set2.setCircleColors(Color.BLACK);
+        set2.setDrawValues(false);
+
+        set3.setColor(Color.BLUE);
+        set3.setCircleColors(Color.BLACK);
+        set3.setFillAlpha(110);
+        set3.setLineWidth(3f);
+        set3.setDrawValues(false);
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
+        dataSets.add(set2);
+        dataSets.add(set3);
+        LineData data = new LineData(dataSets);
+        mChart.setData(data);
+
+        String[] values = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov"};
+
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setValueFormatter(new MyXAxisValueFormater(values));
+        // xAxis.setGranularity(1);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+    }
+
+    public void getCovidCountrywiseAllCases(String Country) {
+        final ArrayList<Entry> yValues = new ArrayList<>();
+        final ArrayList<Entry> yRecovered = new ArrayList<>();
+        final ArrayList<Entry> yDeaths = new ArrayList<>();
+        OkHttpClient client = new OkHttpClient();
+
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url("https://api.covid19api.com/dayone/country/" + Country)
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.i("Failled to call", e.getMessage());
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    int count = 0;
+                    myResponse = response.body().string();
+                    try {
+                        JSONArray jsonArray = new JSONArray(myResponse);
+                        for (int i = 0; i < jsonArray.length(); i = i + 30) {
+                            JSONObject O = jsonArray.getJSONObject(i);
+
+                            Log.i("Date", O.getString("Date"));
+                            int confirmed = Integer.parseInt(O.getString("Confirmed"));
+                            int recovered = Integer.parseInt(O.getString("Recovered"));
+                            int death = Integer.parseInt(O.getString("Deaths"));
+                            while (count != 10) {
+                                yValues.add(new Entry(count, confirmed));
+                                yRecovered.add((new Entry(count, recovered)));
+                                yDeaths.add(new Entry(count, death));
+                                break;
+                            }
+
+                            count++;
+
+                        }
+                        LineChart(yValues, yRecovered, yDeaths);
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    Log.i("OkHTTP", "Call is NOT-successfull");
+                }
+            }
+        });
+
+
+    }
+
+    public void getCovidIndiaCasesStartupGraph() {
+        final ArrayList<Entry> yValues = new ArrayList<>();
+        final ArrayList<Entry> yRecovered = new ArrayList<>();
+        final ArrayList<Entry> yDeaths = new ArrayList<>();
+        OkHttpClient client = new OkHttpClient();
+
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url("https://api.covid19api.com/dayone/country/india")
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.i("Failled to call", e.getMessage());
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    int count = 0;
+                    myResponse = response.body().string();
+                    try {
+                        JSONArray jsonArray = new JSONArray(myResponse);
+                        for (int i = 0; i < jsonArray.length(); i = i + 30) {
+                            JSONObject O = jsonArray.getJSONObject(i);
+
+                            Log.i("Date", O.getString("Date"));
+                            int confirmed = Integer.parseInt(O.getString("Confirmed"));
+                            int recovered = Integer.parseInt(O.getString("Recovered"));
+                            int death = Integer.parseInt(O.getString("Deaths"));
+                            while (count != 10) {
+                                yValues.add(new Entry(count, confirmed));
+                                yRecovered.add((new Entry(count, recovered)));
+                                yDeaths.add(new Entry(count, death));
+                                break;
+                            }
+
+                            count++;
+
+                        }
+                        LineChart(yValues, yRecovered, yDeaths);
+//
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    Log.i("OkHTTP", "Call is NOT-successfull");
+                }
+            }
+        });
+
+
+    }
+
+    public class MyXAxisValueFormater extends ValueFormatter implements IValueFormatter {
+        private String[] mValues;
+
+        public MyXAxisValueFormater(String[] mValues) {
+            Log.i("MYXAXisvalueFormater", "Called");
+            this.mValues = mValues;
+        }
+
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            return mValues[(int) value];
+            // mValues[(int) value];
+        }
     }
 }

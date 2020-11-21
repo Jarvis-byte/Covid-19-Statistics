@@ -74,8 +74,8 @@
                         app:corner_radius="20"
                         app:delay="0"
                         app:error_image="@drawable/wear_mask"
-                        app:placeholder="@drawable/gradient_drawable"
-                        app:period="3000" />
+                        app:period="3000"
+                        app:placeholder="@drawable/gradient_drawable" />
 
 
                 </LinearLayout>
@@ -123,7 +123,7 @@
                     android:layout_gravity="end"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="15dp"
-                    android:drawableLeft="@drawable/ic_baseline_search_24"
+                    android:drawableLeft="@drawable/ic_baseline_repeat_24"
                     android:gravity="center"
                     android:text="Change"
                     android:textColor="#355FD5" />
@@ -135,10 +135,9 @@
                     android:layout_gravity="end"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="15dp"
+                    android:backgroundTint="@color/colorPrimary"
                     android:gravity="center"
-                   android:backgroundTint="@color/colorPrimary"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="350dp"
@@ -153,7 +152,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="90dp"
-
                     android:layout_marginBottom="50dp"
                     android:backgroundTint="#1F273D"
                     app:cardCornerRadius="10dp"
@@ -229,9 +227,30 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/CardView_Line_Graph"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="180dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="gone"
+                    app:cardCornerRadius="10dp">
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/lineChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:padding="5dp" />
+                </androidx.cardview.widget.CardView>
+
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/second_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/first_card"
@@ -541,6 +560,7 @@
 
 
             </androidx.cardview.widget.CardView>
+
 
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
