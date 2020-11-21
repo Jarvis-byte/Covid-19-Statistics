@@ -6,12 +6,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,12 +25,17 @@ import androidx.cardview.widget.CardView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
@@ -52,19 +60,20 @@ import okhttp3.Response;
 
 public class HomeDashboardScreen extends AppCompatActivity {
     String myResponse;
-    TextView confirmed_number, active_number, recovered_number, death_number, NewRecovered_number, NewDeaths_number, btn_change, infected_number, recover_county_number, death_number_country, Welcome_User;
+    TextView confirmed_number, active_number, recovered_number, death_number, NewRecovered_number, NewDeaths_number, btn_change, infected_number, recover_county_number, death_number_country, Welcome_User, changeGraphs;
     String number, formatted;
     double amount;
     DecimalFormat formatter;
     EditText country;
-    ImageView Country_flag, toolbar_image;
+    ImageView Country_flag, toolbar_image, pushDown, pushDown_Grid;
     String welcomemessage;
     ProgressBar Progress_Login_in;
     boolean onCardClick = true;
+    GridLayout Grid_Layout_second;
+    PieChart PieChart;
     private Toolbar toolbar;
     private LineChart mChart;
-    private CardView CardView_Line_Graph, first_card;
-
+    private CardView CardView_Line_Graph, first_card, second_card;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,18 +84,75 @@ public class HomeDashboardScreen extends AppCompatActivity {
         ImageSlider imageSlider = findViewById(R.id.slider);
         Progress_Login_in = findViewById(R.id.Progress_Login_in);
         mChart = findViewById(R.id.lineChart);
+
+        PieChart = findViewById(R.id.PieChart);
         CardView_Line_Graph = findViewById(R.id.CardView_Line_Graph);
         first_card = findViewById(R.id.first_card);
+        second_card = findViewById(R.id.second_card);
+        Grid_Layout_second = findViewById(R.id.Grid_Layout_second);
+        pushDown_Grid = findViewById(R.id.pushDown_Grid);
+        changeGraphs = findViewById(R.id.changeGraphs);
+
+        changeGraphs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (PieChart.getVisibility() == View.GONE) {
+                    AutoTransition autoTransition = new AutoTransition();
+                    // autoTransition.excludeChildren(R.id.second_card, true);
+                    TransitionManager.beginDelayedTransition(CardView_Line_Graph, autoTransition);
+                    PieChart.setVisibility(View.VISIBLE);
+                    mChart.setVisibility(View.GONE);
+                    changeGraphs.setText("Show Line Chart");
+                } else {
+                    AutoTransition autoTransition = new AutoTransition();
+                    // autoTransition.excludeChildren(R.id.second_card, true);
+                    TransitionManager.beginDelayedTransition(CardView_Line_Graph, autoTransition);
+                    PieChart.setVisibility(View.GONE);
+                    mChart.setVisibility(View.VISIBLE);
+                    changeGraphs.setText("Show Pie Chart");
+                }
+            }
+        });
+        second_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Grid_Layout_second.getVisibility() == View.GONE) {
+                    AutoTransition autoTransition = new AutoTransition();
+                    autoTransition.excludeChildren(R.id.second_card, true);
+                    TransitionManager.beginDelayedTransition(second_card, autoTransition);
+                    Grid_Layout_second.setVisibility(View.VISIBLE);
+                    pushDown_Grid.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                } else {
+                    AutoTransition autoTransition = new AutoTransition();
+                    autoTransition.excludeChildren(R.id.second_card, true);
+                    TransitionManager.beginDelayedTransition(second_card, autoTransition);
+                    Grid_Layout_second.setVisibility(View.GONE);
+                    pushDown_Grid.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                }
+
+            }
+        });
+        pushDown = findViewById(R.id.pushDown);
         first_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onCardClick) {
+                if (CardView_Line_Graph.getVisibility() == View.GONE) {
                     onCardClick = false;
+                    AutoTransition autoTransition = new AutoTransition();
+                    autoTransition.excludeChildren(R.id.first_card, true);
+                    TransitionManager.beginDelayedTransition(first_card, autoTransition);
                     CardView_Line_Graph.setVisibility(View.VISIBLE);
+                    pushDown.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
 
                 } else {
+                    AutoTransition autoTransition = new AutoTransition();
+                    autoTransition.excludeChildren(R.id.first_card, true);
+                    TransitionManager.beginDelayedTransition(first_card, autoTransition);
                     CardView_Line_Graph.setVisibility(View.GONE);
+                    pushDown.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                     onCardClick = true;
+
+
                 }
             }
         });
@@ -150,6 +216,8 @@ public class HomeDashboardScreen extends AppCompatActivity {
         getCovidIndiaApi();
         getFlagIndiaApi();
         getCovidIndiaCasesStartupGraph();
+
+
         btn_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,8 +233,11 @@ public class HomeDashboardScreen extends AppCompatActivity {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                         country.setText("");
-                    } else if (btn_change.getText().toString().equalsIgnoreCase("Search")) {
+                        CardView_Line_Graph.setVisibility(View.GONE);
+                        pushDown.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
 
+                    } else if (btn_change.getText().toString().equalsIgnoreCase("Search")) {
+                        btn_change.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_repeat_24, 0, 0, 0);
                         btn_change.setText("Change");
                         country.setEnabled(false);
                         country.clearFocus();
@@ -211,6 +282,8 @@ public class HomeDashboardScreen extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
+                    final ArrayList<PieEntry> TotalConfirmed = new ArrayList<>();
+
                     Log.i("Response", response.toString());
                     myResponse = response.body().string();
                     String countryjson = Country;
@@ -232,6 +305,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                         try {
 
                                             infected_number.setText(O.getString("TotalConfirmed"));
+                                            int totalconfirmedint = Integer.parseInt(O.getString("TotalConfirmed"));
                                             number = infected_number.getText().toString();
                                             amount = Double.parseDouble(number);
                                             formatter = new DecimalFormat("#,###");
@@ -239,6 +313,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                             infected_number.setText(formatted);
 
                                             recover_county_number.setText(O.getString("TotalRecovered"));
+                                            int totalrecoveredint = Integer.parseInt(O.getString("TotalRecovered"));
                                             number = recover_county_number.getText().toString();
                                             amount = Double.parseDouble(number);
                                             formatter = new DecimalFormat("#,###");
@@ -246,11 +321,18 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                             recover_county_number.setText(formatted);
 
                                             death_number_country.setText(O.getString("TotalDeaths"));
+                                            int totaldeathint = Integer.parseInt(O.getString("TotalDeaths"));
                                             number = death_number_country.getText().toString();
                                             amount = Double.parseDouble(number);
                                             formatter = new DecimalFormat("#,###");
                                             formatted = formatter.format(amount);
                                             death_number_country.setText(formatted);
+
+                                            TotalConfirmed.add(new PieEntry(totalconfirmedint, "Infected"));
+                                            TotalConfirmed.add(new PieEntry(totalrecoveredint, "Recovered"));
+                                            TotalConfirmed.add(new PieEntry(totaldeathint, "Death"));
+
+                                            PieChart(TotalConfirmed);
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
@@ -415,11 +497,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                         public void run() {
 
                                             GlideToVectorYou.justLoadImage(HomeDashboardScreen.this, Uri.parse(flag_png), Country_flag);
-//                                            Glide.with(HomeDashboardScreen.this)
-//                                                    .load(flag_png)
-//                                                    .apply(RequestOptions.centerInsideTransform())
-//                                                    .fitCenter()
-//                                                    .into(Country_flag);
+
                                         }
                                     });
 
@@ -436,11 +514,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     GlideToVectorYou.justLoadImage(HomeDashboardScreen.this, Uri.parse(flag_png), Country_flag);
-//                                    Glide.with(HomeDashboardScreen.this)
-//                                            .load(flag_png)
-//                                            .apply(RequestOptions.centerInsideTransform())
-//                                            .fitCenter()
-//                                            .into(Country_flag);
+
                                 }
                             });
                             Log.i("Flag link", flag_png);
@@ -474,6 +548,9 @@ public class HomeDashboardScreen extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
+                    final ArrayList<PieEntry> TotalConfirmed = new ArrayList<>();
+                    final ArrayList<PieEntry> TotalRecovered = new ArrayList<>();
+                    final ArrayList<PieEntry> TotalDeath = new ArrayList<>();
                     Log.i("Response", response.toString());
                     myResponse = response.body().string();
 
@@ -495,6 +572,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                         try {
 
                                             infected_number.setText(O.getString("TotalConfirmed"));
+                                            int totalconfirmedint = Integer.parseInt(O.getString("TotalConfirmed"));
                                             number = infected_number.getText().toString();
                                             amount = Double.parseDouble(number);
                                             formatter = new DecimalFormat("#,###");
@@ -502,6 +580,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                             infected_number.setText(formatted);
 
                                             recover_county_number.setText(O.getString("TotalRecovered"));
+                                            int totalrecoveredint = Integer.parseInt(O.getString("TotalRecovered"));
                                             number = recover_county_number.getText().toString();
                                             amount = Double.parseDouble(number);
                                             formatter = new DecimalFormat("#,###");
@@ -509,12 +588,17 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                             recover_county_number.setText(formatted);
 
                                             death_number_country.setText(O.getString("TotalDeaths"));
+                                            int totaldeathint = Integer.parseInt(O.getString("TotalDeaths"));
                                             number = death_number_country.getText().toString();
                                             amount = Double.parseDouble(number);
                                             formatter = new DecimalFormat("#,###");
                                             formatted = formatter.format(amount);
                                             death_number_country.setText(formatted);
+                                            TotalConfirmed.add(new PieEntry(totalconfirmedint, "Infected"));
+                                            TotalConfirmed.add(new PieEntry(totalrecoveredint, "Recovered"));
+                                            TotalConfirmed.add(new PieEntry(totaldeathint, "Death"));
 
+                                            PieChart(TotalConfirmed);
 
                                         } catch (Exception e) {
                                             e.printStackTrace();
@@ -663,19 +747,19 @@ public class HomeDashboardScreen extends AppCompatActivity {
         LineDataSet set3 = new LineDataSet(yDeaths, "Deaths");
         set1.setCircleColors(Color.BLACK);
         set1.setFillAlpha(110);
-        set1.setColor(Color.RED);
+        set1.setColor(Color.parseColor("#DF9628"));
         set1.setLineWidth(3f);
         set1.setDrawFilled(true);
         set1.setDrawValues(false);
 
 
-        set2.setColor(Color.BLACK);
+        set2.setColor(Color.parseColor("#13BD86"));
         set2.setFillAlpha(110);
         set2.setLineWidth(3f);
         set2.setCircleColors(Color.BLACK);
         set2.setDrawValues(false);
 
-        set3.setColor(Color.BLUE);
+        set3.setColor(Color.parseColor("#F65051"));
         set3.setCircleColors(Color.BLACK);
         set3.setFillAlpha(110);
         set3.setLineWidth(3f);
@@ -807,6 +891,32 @@ public class HomeDashboardScreen extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    public void PieChart(ArrayList<PieEntry> totalRecovered) {
+        PieChart.setUsePercentValues(true);
+        PieChart.getDescription().setEnabled(true);
+        Description description = new Description();
+        description.setText("Today's Report");
+        description.setTextSize(15);
+        PieChart.setDescription(description);
+        PieChart.setExtraOffsets(5, 10, 5, 5);
+        PieChart.setDrawHoleEnabled(true);
+        PieChart.setHoleColor(Color.WHITE);
+        PieChart.setTransparentCircleRadius(60f);
+        PieChart.animateY(1000, Easing.EaseInOutCubic);
+
+        PieDataSet dataSet = new PieDataSet(totalRecovered, "");
+
+        dataSet.setSelectionShift(5f);
+        dataSet.setColors(Color.parseColor("#DF9628"), Color.parseColor("#13BD86"), Color.parseColor("#F65051"));
+        dataSet.setDrawValues(false);
+        PieData data = new PieData(dataSet);
+        data.setValueTextSize(10f);
+        data.setValueTextColor(Color.YELLOW);
+
+        PieChart.setData(data);
 
     }
 

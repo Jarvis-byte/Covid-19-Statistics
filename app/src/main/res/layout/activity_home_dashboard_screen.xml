@@ -105,6 +105,14 @@
                     android:layout_marginTop="15dp"
                     android:src="@drawable/ic_male" />
 
+                <ImageView
+                    android:id="@+id/pushDown"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="160dp"
+                    android:background="@drawable/ic_baseline_keyboard_arrow_down_24" />
+
                 <EditText
                     android:id="@+id/country"
                     android:layout_width="wrap_content"
@@ -230,9 +238,10 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/CardView_Line_Graph"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="400dp"
+                    android:layout_gravity="bottom"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="180dp"
+                    android:layout_marginTop="210dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginBottom="5dp"
                     android:visibility="gone"
@@ -241,12 +250,34 @@
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/lineChart"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="350dp"
                         android:layout_margin="5dp"
                         android:padding="5dp" />
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/PieChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="350dp"
+                        android:layout_margin="5dp"
+                        android:padding="5dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/changeGraphs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="5dp"
+
+                        android:background="@drawable/rounded_gradient"
+                        android:gravity="center_horizontal"
+                        android:padding="5dp"
+                        android:text="Show Pie Chart"
+                        android:textColor="#fff"
+                        android:textSize="15dp" />
+
                 </androidx.cardview.widget.CardView>
-
-
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -254,7 +285,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/first_card"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="2dp"
                 android:layout_marginBottom="5dp"
                 android:backgroundTint="#3A4774"
                 app:cardCornerRadius="20dp"
@@ -279,7 +312,8 @@
                     android:background="#3A4774"
                     android:columnCount="2"
                     android:columnOrderPreserved="true"
-                    android:rowOrderPreserved="true">
+                    android:rowOrderPreserved="true"
+                    android:useDefaultMargins="true">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="180dp"
@@ -330,8 +364,9 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="180dp"
+                        android:layout_width="170dp"
                         android:layout_height="120dp"
+                        android:layout_marginStart="15dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
@@ -374,6 +409,30 @@
 
 
                     </androidx.cardview.widget.CardView>
+                </GridLayout>
+
+                <ImageView
+                    android:id="@+id/pushDown_Grid"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="180dp"
+                    android:background="@drawable/ic_baseline_keyboard_arrow_down_24" />
+
+                <GridLayout
+                    android:id="@+id/Grid_Layout_second"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="210dp"
+                    android:alignmentMode="alignMargins"
+                    android:background="#3A4774"
+                    android:columnCount="2"
+                    android:columnOrderPreserved="true"
+                    android:rowOrderPreserved="true"
+                    android:visibility="gone"
+
+                    >
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="180dp"
@@ -422,7 +481,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="180dp"
+                        android:layout_width="170dp"
                         android:layout_height="120dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
@@ -511,7 +570,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="180dp"
+                        android:layout_width="170dp"
                         android:layout_height="120dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
@@ -554,7 +613,6 @@
 
 
                     </androidx.cardview.widget.CardView>
-
 
                 </GridLayout>
 

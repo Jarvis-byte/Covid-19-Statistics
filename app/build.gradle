@@ -64,4 +64,7 @@ dependencies {
     //Charts(MPCharts)
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
+
+    //Expandable Layout
+    compile 'com.github.aakira:expandable-layout:1.6.0@aar'
 }
