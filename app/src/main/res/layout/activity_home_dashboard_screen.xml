@@ -26,6 +26,7 @@
                 android:layout_height="40dp"
                 android:src="@drawable/graphbar" />
 
+
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -103,7 +104,17 @@
                     android:layout_height="50dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="15dp"
-                    android:src="@drawable/ic_male" />
+                    android:src="@drawable/ic_male"
+                    android:visibility="gone" />
+
+                <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/spin_kit_flag"
+                    style="@style/SpinKitView.Large.DoubleBounce"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    app:SpinKit_Color="@color/colorWhite" />
 
                 <ImageView
                     android:id="@+id/pushDown"
@@ -136,16 +147,17 @@
                     android:text="Change"
                     android:textColor="#355FD5" />
 
-                <ProgressBar
+                <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/Progress_Login_in"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/SpinKitView.Large.ChasingDots"
+                    android:layout_width="75dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="end"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="15dp"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:gravity="center"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:SpinKit_Color="@color/colorPrimary" />
+
 
                 <View
                     android:layout_width="350dp"
@@ -156,6 +168,7 @@
                     android:background="#ffffff" />
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_under_first_card"
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -182,10 +195,21 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="35dp"
                         android:layout_marginBottom="10dp"
-
-                        android:text="8,908000"
+                        android:text=""
                         android:textColor="#F6F6F7"
-                        android:textSize="20dp" />
+                        android:textSize="20dp"
+                        android:visibility="gone" />
+
+                    <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/spin_kit_infected_number"
+                        style="@style/SpinKitView.Large.ThreeBounce"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="35dp"
+                        android:layout_marginBottom="10dp"
+                        app:SpinKit_Color="@color/colorWhite" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -205,9 +229,21 @@
                         android:layout_marginTop="35dp"
                         android:layout_marginBottom="10dp"
                         android:gravity="end"
-                        android:text="8,908"
+                        android:text=""
                         android:textColor="#F6F6F7"
-                        android:textSize="20dp" />
+                        android:textSize="20dp"
+                        android:visibility="gone" />
+
+                    <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/spin_kit_recover_num"
+                        style="@style/SpinKitView.Large.ThreeBounce"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="35dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="end"
+                        app:SpinKit_Color="@color/colorWhite" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -229,9 +265,21 @@
                         android:layout_marginTop="35dp"
                         android:layout_marginEnd="15dp"
                         android:layout_marginBottom="10dp"
-                        android:text="1000000"
+                        android:text=""
                         android:textColor="#F6F6F7"
-                        android:textSize="20dp" />
+                        android:textSize="20dp"
+                        android:visibility="gone" />
+
+                    <com.github.ybq.android.spinkit.SpinKitView
+                        android:id="@+id/spin_kit_death_num"
+                        style="@style/SpinKitView.Large.ThreeBounce"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="35dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="10dp"
+                        app:SpinKit_Color="@color/colorWhite" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -308,20 +356,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
-                    android:alignmentMode="alignMargins"
                     android:background="#3A4774"
-                    android:columnCount="2"
-                    android:columnOrderPreserved="true"
-                    android:rowOrderPreserved="true"
-                    android:useDefaultMargins="true">
+                    android:columnCount="2">
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="180dp"
+                        android:layout_width="170dp"
                         android:layout_height="120dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-
-                        android:layout_marginBottom="5dp"
+                        android:layout_margin="10dp"
                         android:background="#FFE7EB"
                         android:backgroundTint="#FFE7EB"
                         android:clickable="true"
@@ -366,10 +407,7 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="170dp"
                         android:layout_height="120dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_margin="10dp"
                         android:background="#FFE7EB"
                         android:backgroundTint="#E8F2FE"
                         android:clickable="true"
@@ -425,22 +463,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="210dp"
-                    android:alignmentMode="alignMargins"
                     android:background="#3A4774"
                     android:columnCount="2"
-                    android:columnOrderPreserved="true"
-                    android:rowOrderPreserved="true"
-                    android:visibility="gone"
-
-                    >
+                    android:visibility="gone">
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="180dp"
+                        android:layout_width="170dp"
                         android:layout_height="120dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-
-                        android:layout_marginBottom="5dp"
+                        android:layout_margin="10dp"
                         android:backgroundTint="#EAF5ED"
                         android:clickable="true"
                         android:focusable="true"
@@ -483,9 +513,7 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="170dp"
                         android:layout_height="120dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_margin="10dp"
                         android:backgroundTint="#F0F1F3"
                         android:clickable="true"
                         android:focusable="true"
@@ -526,10 +554,9 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="180dp"
+                        android:layout_width="170dp"
                         android:layout_height="120dp"
                         android:layout_margin="10dp"
-                        android:layout_marginBottom="10dp"
                         android:backgroundTint="#6E77FA"
                         android:clickable="true"
                         android:focusable="true"
@@ -572,9 +599,7 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="170dp"
                         android:layout_height="120dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_margin="10dp"
                         android:backgroundTint="#fae8e8"
                         android:clickable="true"
                         android:focusable="true"

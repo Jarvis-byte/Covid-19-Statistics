@@ -41,6 +41,10 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.DoubleBounce;
+import com.github.ybq.android.spinkit.style.FadingCircle;
+import com.github.ybq.android.spinkit.style.ThreeBounce;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -67,13 +71,16 @@ public class HomeDashboardScreen extends AppCompatActivity {
     EditText country;
     ImageView Country_flag, toolbar_image, pushDown, pushDown_Grid;
     String welcomemessage;
-    ProgressBar Progress_Login_in;
+
+    ProgressBar Progress_Login_in, spin_kit_infected_number, spin_kit_recover_num, spin_kit_death_num, spin_kit_flag;
+
+
     boolean onCardClick = true;
     GridLayout Grid_Layout_second;
     PieChart PieChart;
     private Toolbar toolbar;
     private LineChart mChart;
-    private CardView CardView_Line_Graph, first_card, second_card;
+    private CardView CardView_Line_Graph, first_card, second_card, card_under_first_card;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +89,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbar_image = findViewById(R.id.toolbar_image);
         ImageSlider imageSlider = findViewById(R.id.slider);
-        Progress_Login_in = findViewById(R.id.Progress_Login_in);
+
         mChart = findViewById(R.id.lineChart);
 
         PieChart = findViewById(R.id.PieChart);
@@ -92,7 +99,30 @@ public class HomeDashboardScreen extends AppCompatActivity {
         Grid_Layout_second = findViewById(R.id.Grid_Layout_second);
         pushDown_Grid = findViewById(R.id.pushDown_Grid);
         changeGraphs = findViewById(R.id.changeGraphs);
+        card_under_first_card = findViewById(R.id.card_under_first_card);
 
+        //============================ Progress bar ============================================
+
+        spin_kit_infected_number = findViewById(R.id.spin_kit_infected_number);
+        Sprite doubleBounce = new ThreeBounce();
+        spin_kit_infected_number.setIndeterminateDrawable(doubleBounce);
+
+        spin_kit_recover_num = findViewById(R.id.spin_kit_recover_num);
+        Sprite doubleBouncerecover_num = new ThreeBounce();
+        spin_kit_recover_num.setIndeterminateDrawable(doubleBouncerecover_num);
+
+        spin_kit_death_num = findViewById(R.id.spin_kit_death_num);
+        Sprite doubleBouncerDeath_num = new ThreeBounce();
+        spin_kit_death_num.setIndeterminateDrawable(doubleBouncerDeath_num);
+
+        spin_kit_flag = findViewById(R.id.spin_kit_flag);
+        Sprite doubleBouncerflag = new DoubleBounce();
+        spin_kit_flag.setIndeterminateDrawable(doubleBouncerflag);
+
+        Progress_Login_in = findViewById(R.id.Progress_Login_in);
+        Sprite doubleBouncerbtn_changer = new FadingCircle();
+        Progress_Login_in.setIndeterminateDrawable(doubleBouncerbtn_changer);
+        //==========================================================================================================
         changeGraphs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -247,6 +277,10 @@ public class HomeDashboardScreen extends AppCompatActivity {
                         getCovidCountryWiseApi(country.getText().toString().trim());
                         getFlagCovidApi(country.getText().toString().trim());
                         getCovidCountrywiseAllCases(country.getText().toString().trim());
+                        AutoTransition autoTransition = new AutoTransition();
+                        TransitionManager.beginDelayedTransition(first_card, autoTransition);
+                        Country_flag.setVisibility(View.GONE);
+                        spin_kit_flag.setVisibility(View.VISIBLE);
                     }
                 }
 
@@ -267,6 +301,21 @@ public class HomeDashboardScreen extends AppCompatActivity {
     }
 
     public void getCovidCountryWiseApi(final String Country) {
+        AutoTransition autoTransition = new AutoTransition();
+        TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition);
+        infected_number.setVisibility(View.GONE);
+        spin_kit_infected_number.setVisibility(View.VISIBLE);
+
+        AutoTransition autoTransition2 = new AutoTransition();
+        TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition2);
+        recover_county_number.setVisibility(View.GONE);
+        spin_kit_recover_num.setVisibility(View.VISIBLE);
+
+        AutoTransition autoTransition3 = new AutoTransition();
+        TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition3);
+        death_number_country.setVisibility(View.GONE);
+        spin_kit_death_num.setVisibility(View.VISIBLE);
+
         OkHttpClient client = new OkHttpClient();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
@@ -303,6 +352,21 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         try {
+
+                                            AutoTransition autoTransition = new AutoTransition();
+                                            TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition);
+                                            infected_number.setVisibility(View.VISIBLE);
+                                            spin_kit_infected_number.setVisibility(View.GONE);
+
+                                            AutoTransition autoTransition2 = new AutoTransition();
+                                            TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition2);
+                                            recover_county_number.setVisibility(View.VISIBLE);
+                                            spin_kit_recover_num.setVisibility(View.GONE);
+
+                                            AutoTransition autoTransition3 = new AutoTransition();
+                                            TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition3);
+                                            death_number_country.setVisibility(View.VISIBLE);
+                                            spin_kit_death_num.setVisibility(View.GONE);
 
                                             infected_number.setText(O.getString("TotalConfirmed"));
                                             int totalconfirmedint = Integer.parseInt(O.getString("TotalConfirmed"));
@@ -370,6 +434,12 @@ public class HomeDashboardScreen extends AppCompatActivity {
     }
 
     public void getFlagCovidApi(final String Country) {
+
+        AutoTransition autoTransition = new AutoTransition();
+        TransitionManager.beginDelayedTransition(first_card, autoTransition);
+        Country_flag.setVisibility(View.GONE);
+        spin_kit_flag.setVisibility(View.VISIBLE);
+
         Log.i("Flag Function", "Called");
 
         OkHttpClient client = new OkHttpClient();
@@ -390,6 +460,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseFlag = response.body().string();
+
                     try {
 
                         JSONArray jsonArray = new JSONArray(responseFlag);
@@ -403,7 +474,10 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                     HomeDashboardScreen.this.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-
+                                            AutoTransition autoTransition = new AutoTransition();
+                                            TransitionManager.beginDelayedTransition(first_card, autoTransition);
+                                            Country_flag.setVisibility(View.VISIBLE);
+                                            spin_kit_flag.setVisibility(View.GONE);
                                             GlideToVectorYou.justLoadImage(HomeDashboardScreen.this, Uri.parse(flag_png), Country_flag);
                                             Progress_Login_in.setVisibility(View.INVISIBLE);
                                             btn_change.setVisibility(View.VISIBLE);
@@ -427,6 +501,10 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                 public void run() {
                                     Progress_Login_in.setVisibility(View.INVISIBLE);
                                     btn_change.setVisibility(View.VISIBLE);
+                                    AutoTransition autoTransition = new AutoTransition();
+                                    TransitionManager.beginDelayedTransition(first_card, autoTransition);
+                                    Country_flag.setVisibility(View.VISIBLE);
+                                    spin_kit_flag.setVisibility(View.GONE);
                                     GlideToVectorYou.justLoadImage(HomeDashboardScreen.this, Uri.parse(flag_png), Country_flag);
 //                                    Glide.with(HomeDashboardScreen.this)
 //                                            .load(flag_png)
@@ -497,7 +575,10 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                         public void run() {
 
                                             GlideToVectorYou.justLoadImage(HomeDashboardScreen.this, Uri.parse(flag_png), Country_flag);
-
+                                            AutoTransition autoTransition = new AutoTransition();
+                                            TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition);
+                                            Country_flag.setVisibility(View.VISIBLE);
+                                            spin_kit_flag.setVisibility(View.GONE);
                                         }
                                     });
 
@@ -514,7 +595,10 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     GlideToVectorYou.justLoadImage(HomeDashboardScreen.this, Uri.parse(flag_png), Country_flag);
-
+                                    AutoTransition autoTransition = new AutoTransition();
+                                    TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition);
+                                    Country_flag.setVisibility(View.VISIBLE);
+                                    spin_kit_flag.setVisibility(View.GONE);
                                 }
                             });
                             Log.i("Flag link", flag_png);
@@ -570,6 +654,22 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         try {
+                                            AutoTransition autoTransition = new AutoTransition();
+                                            TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition);
+                                            infected_number.setVisibility(View.VISIBLE);
+                                            spin_kit_infected_number.setVisibility(View.GONE);
+
+                                            AutoTransition autoTransition2 = new AutoTransition();
+                                            TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition2);
+                                            recover_county_number.setVisibility(View.VISIBLE);
+                                            spin_kit_recover_num.setVisibility(View.GONE);
+
+
+                                            AutoTransition autoTransition3 = new AutoTransition();
+                                            TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition3);
+                                            death_number_country.setVisibility(View.VISIBLE);
+                                            spin_kit_death_num.setVisibility(View.GONE);
+
 
                                             infected_number.setText(O.getString("TotalConfirmed"));
                                             int totalconfirmedint = Integer.parseInt(O.getString("TotalConfirmed"));

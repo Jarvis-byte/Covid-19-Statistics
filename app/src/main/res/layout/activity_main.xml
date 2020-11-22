@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/MainRelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/screen_1_crop"
@@ -16,7 +17,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginBottom="20dp"
         android:src="@drawable/btn_arrow"
-        />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/txt_GetStarted"
@@ -29,7 +30,18 @@
         android:layout_toLeftOf="@+id/btn_getstarted"
         android:gravity="center"
         android:text="Get Started"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:textSize="20sp" />
+        android:visibility="gone" />
 
+    <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/spin_kit_splash_Screen"
+        style="@style/SpinKitView.Large.WanderingCubes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginBottom="15dp"
+
+        app:SpinKit_Color="#9156EC" />
 </RelativeLayout>

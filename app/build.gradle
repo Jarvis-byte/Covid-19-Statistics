@@ -67,4 +67,10 @@ dependencies {
 
     //Expandable Layout
     compile 'com.github.aakira:expandable-layout:1.6.0@aar'
+
+    //ProgressBar
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+    // Animation for activity
+    implementation 'com.github.mohammadatif:Animatoo:master'
 }
