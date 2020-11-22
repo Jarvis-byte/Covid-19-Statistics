@@ -1,7 +1,9 @@
 package com.example.covid_19;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,9 +24,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.covid_19.AlertDialouge.ListItem;
+import com.example.covid_19.AlertDialouge.MyAdapter;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -42,9 +48,15 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.ChasingDots;
+import com.github.ybq.android.spinkit.style.CubeGrid;
 import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.github.ybq.android.spinkit.style.FadingCircle;
+import com.github.ybq.android.spinkit.style.FoldingCube;
+import com.github.ybq.android.spinkit.style.Pulse;
+import com.github.ybq.android.spinkit.style.RotatingPlane;
 import com.github.ybq.android.spinkit.style.ThreeBounce;
+import com.github.ybq.android.spinkit.style.WanderingCubes;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -64,20 +76,21 @@ import okhttp3.Response;
 
 public class HomeDashboardScreen extends AppCompatActivity {
     String myResponse;
-    TextView confirmed_number, active_number, recovered_number, death_number, NewRecovered_number, NewDeaths_number, btn_change, infected_number, recover_county_number, death_number_country, Welcome_User, changeGraphs;
+    TextView confirmed_number, active_number, recovered_number, death_number, NewRecovered_number, NewDeaths_number, btn_change, infected_number, recover_county_number, death_number_country, Welcome_User, changeGraphs,CityWiseList;
     String number, formatted;
     double amount;
     DecimalFormat formatter;
     EditText country;
-    ImageView Country_flag, toolbar_image, pushDown, pushDown_Grid;
+    ImageView Country_flag, toolbar_image, pushDown, pushDown_Grid, Close;
     String welcomemessage;
 
-    ProgressBar Progress_Login_in, spin_kit_infected_number, spin_kit_recover_num, spin_kit_death_num, spin_kit_flag;
-
-
+    ProgressBar Progress_Login_in, spin_kit_infected_number, spin_kit_recover_num, spin_kit_death_num, spin_kit_flag,spin_kit_alert;
     boolean onCardClick = true;
     GridLayout Grid_Layout_second;
     PieChart PieChart;
+    RecyclerView recycler;
+    RecyclerView.Adapter adapter;
+    private List<ListItem> listItems;
     private Toolbar toolbar;
     private LineChart mChart;
     private CardView CardView_Line_Graph, first_card, second_card, card_under_first_card;
@@ -86,12 +99,18 @@ public class HomeDashboardScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_dashboard_screen);
+
         toolbar = findViewById(R.id.toolbar);
         toolbar_image = findViewById(R.id.toolbar_image);
         ImageSlider imageSlider = findViewById(R.id.slider);
-
         mChart = findViewById(R.id.lineChart);
-
+       // CityWiseList=findViewById(R.id.CityWiseList);
+//        CityWiseList.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showGatePassDetailDialog();
+//            }
+//        });
         PieChart = findViewById(R.id.PieChart);
         CardView_Line_Graph = findViewById(R.id.CardView_Line_Graph);
         first_card = findViewById(R.id.first_card);
@@ -280,7 +299,9 @@ public class HomeDashboardScreen extends AppCompatActivity {
                         AutoTransition autoTransition = new AutoTransition();
                         TransitionManager.beginDelayedTransition(first_card, autoTransition);
                         Country_flag.setVisibility(View.GONE);
+
                         spin_kit_flag.setVisibility(View.VISIBLE);
+
                     }
                 }
 
@@ -301,6 +322,8 @@ public class HomeDashboardScreen extends AppCompatActivity {
     }
 
     public void getCovidCountryWiseApi(final String Country) {
+
+
         AutoTransition autoTransition = new AutoTransition();
         TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition);
         infected_number.setVisibility(View.GONE);
@@ -336,6 +359,25 @@ public class HomeDashboardScreen extends AppCompatActivity {
                     Log.i("Response", response.toString());
                     myResponse = response.body().string();
                     String countryjson = Country;
+                    if (countryjson.equalsIgnoreCase("india"))
+                    {
+
+                        HomeDashboardScreen.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                             //   CityWiseList.setVisibility(View.VISIBLE);
+                            }
+                        });
+
+                    }
+                    else {
+                        HomeDashboardScreen.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                              //  CityWiseList.setVisibility(View.GONE);
+                            }
+                        });
+                    }
                     try {
                         Boolean cityFound = false;
 
@@ -353,20 +395,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                     public void run() {
                                         try {
 
-                                            AutoTransition autoTransition = new AutoTransition();
-                                            TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition);
-                                            infected_number.setVisibility(View.VISIBLE);
-                                            spin_kit_infected_number.setVisibility(View.GONE);
 
-                                            AutoTransition autoTransition2 = new AutoTransition();
-                                            TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition2);
-                                            recover_county_number.setVisibility(View.VISIBLE);
-                                            spin_kit_recover_num.setVisibility(View.GONE);
-
-                                            AutoTransition autoTransition3 = new AutoTransition();
-                                            TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition3);
-                                            death_number_country.setVisibility(View.VISIBLE);
-                                            spin_kit_death_num.setVisibility(View.GONE);
 
                                             infected_number.setText(O.getString("TotalConfirmed"));
                                             int totalconfirmedint = Integer.parseInt(O.getString("TotalConfirmed"));
@@ -392,6 +421,20 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                             formatted = formatter.format(amount);
                                             death_number_country.setText(formatted);
 
+                                            AutoTransition autoTransition = new AutoTransition();
+                                            TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition);
+                                            infected_number.setVisibility(View.VISIBLE);
+                                            spin_kit_infected_number.setVisibility(View.GONE);
+
+                                            AutoTransition autoTransition2 = new AutoTransition();
+                                            TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition2);
+                                            recover_county_number.setVisibility(View.VISIBLE);
+                                            spin_kit_recover_num.setVisibility(View.GONE);
+
+                                            AutoTransition autoTransition3 = new AutoTransition();
+                                            TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition3);
+                                            death_number_country.setVisibility(View.VISIBLE);
+                                            spin_kit_death_num.setVisibility(View.GONE);
                                             TotalConfirmed.add(new PieEntry(totalconfirmedint, "Infected"));
                                             TotalConfirmed.add(new PieEntry(totalrecoveredint, "Recovered"));
                                             TotalConfirmed.add(new PieEntry(totaldeathint, "Death"));
@@ -1017,6 +1060,78 @@ public class HomeDashboardScreen extends AppCompatActivity {
         data.setValueTextColor(Color.YELLOW);
 
         PieChart.setData(data);
+
+    }
+
+    public void showGatePassDetailDialog() {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(HomeDashboardScreen.this, R.style.CustomAlertDialog);
+
+        View alertView = (HomeDashboardScreen.this).getLayoutInflater().inflate(R.layout.alert_dialouge_box_state, null);
+        alert.setView(alertView);
+        final AlertDialog alertDialog = alert.show();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.setCancelable(true);
+        alertDialog.setCanceledOnTouchOutside(false);
+        Close = alertView.findViewById(R.id.Close);
+
+        Close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        spin_kit_alert=alertView.findViewById(R.id.spin_kit_alert);
+        Sprite doubleBouncerflag = new WanderingCubes();
+        spin_kit_alert.setIndeterminateDrawable(doubleBouncerflag);
+
+        recycler = alertView.findViewById(R.id.recycler);
+        recycler.setVisibility(View.GONE);
+        recycler.setHasFixedSize(true);
+        recycler.setLayoutManager(new LinearLayoutManager(HomeDashboardScreen.this));
+        listItems = new ArrayList<>();
+        OkHttpClient client = new OkHttpClient();
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url("https://api.covidindiatracker.com/state_data.json")
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.i("Failled to call", e.getMessage());
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    myResponse = response.body().string();
+                    Log.i("JSON DATA", myResponse);
+                    try {
+                        JSONArray jsonArray = new JSONArray(myResponse);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject O = jsonArray.getJSONObject(i);
+                            ListItem listItem = new ListItem(O.getString("state"), O.getString("confirmed"), O.getString("recovered"), O.getString("deaths"));
+                            listItems.add(listItem);
+                        }
+                        HomeDashboardScreen.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                recycler.setVisibility(View.VISIBLE);
+                                spin_kit_alert.setVisibility(View.GONE);
+                                adapter = new MyAdapter(listItems, HomeDashboardScreen.this);
+                                recycler.setAdapter(adapter);
+                            }
+                        });
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    Log.i("OkHTTP", "Call is NOT-successfull");
+                }
+            }
+        });
+
 
     }
 

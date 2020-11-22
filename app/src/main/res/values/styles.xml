@@ -11,4 +11,8 @@
     <style name="toolbartexts">
         <item name="android:textSize">18sp</item>
     </style>
+
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/popup_drawable</item>
+    </style>
 </resources>
