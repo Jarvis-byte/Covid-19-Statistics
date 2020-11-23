@@ -1,7 +1,7 @@
 # COVID-19 Status 
 An android app to track COVID-19 status in India and around the world.
 
-Features: -
+# Features: -
 
 * Fast, Beautiful, Lightweight & Elegant.
 * Detailed home screen.
@@ -31,3 +31,20 @@ Some Videos: -
 * Country Wise Search
 
 ![Covid-19-Stats demo](Country_Wise_Search.gif)
+
+-------------------------------------------------------------------------
+
+# Libraries used: -
+
+* okhttp3:-  For HTTP calls.
+* Glide:- For Image Parsing.
+* Circular Image:-To show Flags(Country).
+* MPAndroidChart:- For Pie Charts And Line Charts.
+
+---------------------------------------------------------------------
+
+# How to contribute?
+* Fork this repo.
+* Push changes to forked repo.
+* Make sure everything works.
+* Create a pull request.
