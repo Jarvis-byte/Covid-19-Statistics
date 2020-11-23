@@ -13,3 +13,5 @@ Features: -
 * COVID-19 helpful information with image slider.
 
 Some Videos: -
+
+![Covid-19-Stats demo](flash_intro.gif)
