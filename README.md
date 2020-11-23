@@ -14,4 +14,20 @@ Features: -
 
 Some Videos: -
 
+* Splash Screen And Home DashBoard Screen And Charts
+
 ![Covid-19-Stats demo](flash_intro.gif)
+
+-----------------------------------------------------------------------------------
+
+
+* State Wise Search
+
+![Covid-19-Stats demo](State_Wise_Search.gif)
+
+-----------------------------------------------------------------------------------
+
+
+* Country Wise Search
+
+![Covid-19-Stats demo](Country_Wise_Search.gif)
