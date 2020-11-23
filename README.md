@@ -1,4 +1,4 @@
-# COVID-19 Status 
+# COVID-19 Statistics
 An android app to track COVID-19 status in India and around the world.
 
 # Features: -
