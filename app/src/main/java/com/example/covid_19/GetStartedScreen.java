@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -20,12 +22,15 @@ public class GetStartedScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         spin_kit_splash_Screen = findViewById(R.id.spin_kit_splash_Screen);
         MainRelativeLayout = findViewById(R.id.MainRelativeLayout);
         ImageView btn_getstarted = findViewById(R.id.btn_getstarted);
         TextView txt_GetStarted = findViewById(R.id.txt_GetStarted);
         txt_GetStarted.setTextColor(Color.parseColor("#000000"));
+
         Thread thread = new Thread() {
             @Override
             public void run() {

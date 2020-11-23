@@ -136,6 +136,22 @@
                     android:textColorHint="#E3E5E8" />
 
                 <TextView
+                    android:id="@+id/CityWiseList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="150dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:background="@drawable/rounded_gradient_heading"
+                    android:padding="10dp"
+                    android:drawableRight="@drawable/ic_baseline_arrow_forward_ios_24"
+                    android:text="State Wise"
+                    android:textStyle="bold"
+                    android:textColor="#E3E5E8"
+
+                    android:textColorHint="#E3E5E8" />
+
+                <TextView
                     android:id="@+id/btn_change"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
@@ -385,7 +401,7 @@
                             android:layout_width="50dp"
                             android:layout_height="70dp"
                             android:layout_gravity="start|center"
-                            android:layout_marginStart="30dp"
+                            android:layout_marginStart="20dp"
                             android:layout_marginTop="15dp"
                             android:src="@drawable/patient" />
 
@@ -491,7 +507,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_gravity="start|center"
-                            android:layout_marginStart="30dp"
+                            android:layout_marginStart="20dp"
                             android:layout_marginTop="15dp"
                             android:src="@drawable/doctor" />
 

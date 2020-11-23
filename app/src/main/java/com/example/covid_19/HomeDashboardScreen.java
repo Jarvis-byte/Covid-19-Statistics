@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,13 +49,8 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.ybq.android.spinkit.sprite.Sprite;
-import com.github.ybq.android.spinkit.style.ChasingDots;
-import com.github.ybq.android.spinkit.style.CubeGrid;
 import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.github.ybq.android.spinkit.style.FadingCircle;
-import com.github.ybq.android.spinkit.style.FoldingCube;
-import com.github.ybq.android.spinkit.style.Pulse;
-import com.github.ybq.android.spinkit.style.RotatingPlane;
 import com.github.ybq.android.spinkit.style.ThreeBounce;
 import com.github.ybq.android.spinkit.style.WanderingCubes;
 
@@ -76,20 +72,21 @@ import okhttp3.Response;
 
 public class HomeDashboardScreen extends AppCompatActivity {
     String myResponse;
-    TextView confirmed_number, active_number, recovered_number, death_number, NewRecovered_number, NewDeaths_number, btn_change, infected_number, recover_county_number, death_number_country, Welcome_User, changeGraphs,CityWiseList;
+    TextView confirmed_number, active_number, recovered_number, death_number, NewRecovered_number, NewDeaths_number, btn_change, infected_number, recover_county_number, death_number_country, Welcome_User, changeGraphs, CityWiseList;
     String number, formatted;
     double amount;
     DecimalFormat formatter;
     EditText country;
     ImageView Country_flag, toolbar_image, pushDown, pushDown_Grid, Close;
     String welcomemessage;
-
-    ProgressBar Progress_Login_in, spin_kit_infected_number, spin_kit_recover_num, spin_kit_death_num, spin_kit_flag,spin_kit_alert;
+    MyAdapter adapter;
+    ProgressBar Progress_Login_in, spin_kit_infected_number, spin_kit_recover_num, spin_kit_death_num, spin_kit_flag, spin_kit_alert;
     boolean onCardClick = true;
     GridLayout Grid_Layout_second;
     PieChart PieChart;
     RecyclerView recycler;
-    RecyclerView.Adapter adapter;
+
+    SearchView search_city;
     private List<ListItem> listItems;
     private Toolbar toolbar;
     private LineChart mChart;
@@ -104,13 +101,15 @@ public class HomeDashboardScreen extends AppCompatActivity {
         toolbar_image = findViewById(R.id.toolbar_image);
         ImageSlider imageSlider = findViewById(R.id.slider);
         mChart = findViewById(R.id.lineChart);
-       // CityWiseList=findViewById(R.id.CityWiseList);
-//        CityWiseList.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showGatePassDetailDialog();
-//            }
-//        });
+
+        CityWiseList = findViewById(R.id.CityWiseList);
+        CityWiseList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showGatePassDetailDialog();
+            }
+        });
+
         PieChart = findViewById(R.id.PieChart);
         CardView_Line_Graph = findViewById(R.id.CardView_Line_Graph);
         first_card = findViewById(R.id.first_card);
@@ -208,11 +207,15 @@ public class HomeDashboardScreen extends AppCompatActivity {
 
 
         List<SlideModel> slideModels = new ArrayList<>();
+        slideModels.add(new SlideModel(R.drawable.covid_poster, "Welcome To Covid-19 Statistic App"));
+        slideModels.add(new SlideModel(R.drawable.thanks_dr, "Thank You Heroes"));
         slideModels.add(new SlideModel(R.drawable.wear_mask, "Wear a mask.Save lives"));
-        slideModels.add(new SlideModel(R.drawable.no_contact, "No Contact"));
-        slideModels.add(new SlideModel(R.drawable.washhand, "Wash Your Hand Properly"));
-        slideModels.add(new SlideModel(R.drawable.hand_sanitizer, "Use Sanitizer"));
-        slideModels.add(new SlideModel(R.drawable.fight_corona, "Together we will fight with Corona Virus"));
+        slideModels.add(new SlideModel(R.drawable.no_contact, "Please Do Not Touch"));
+        slideModels.add(new SlideModel(R.drawable.washhand, "Clean your hands often"));
+        slideModels.add(new SlideModel(R.drawable.social_distance_new, "Keep a safe distance"));
+        slideModels.add(new SlideModel(R.drawable.stop_covid, "Together we will fight with Corona Virus"));
+
+
         imageSlider.setImageList(slideModels, true);
         Country_flag = findViewById(R.id.Country_flag);
         Welcome_User = findViewById(R.id.Welcome_User);
@@ -279,18 +282,26 @@ public class HomeDashboardScreen extends AppCompatActivity {
                         btn_change.setText("Search");
                         country.setEnabled(true);
                         country.requestFocus();
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
+                        //  HomeDashboardScreen.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                        InputMethodManager imm = (InputMethodManager) HomeDashboardScreen.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                        imm.showSoftInput(country, 0);
+
                         country.setText("");
                         CardView_Line_Graph.setVisibility(View.GONE);
                         pushDown.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+
+                        AutoTransition autoTransition = new AutoTransition();
+                        //   autoTransition.excludeChildren(R.id.first_card, true);
+                        TransitionManager.beginDelayedTransition(first_card, autoTransition);
+                        CityWiseList.setVisibility(View.GONE);
 
                     } else if (btn_change.getText().toString().equalsIgnoreCase("Search")) {
                         btn_change.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_repeat_24, 0, 0, 0);
                         btn_change.setText("Change");
                         country.setEnabled(false);
-                        country.clearFocus();
-                        HomeDashboardScreen.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                        HomeDashboardScreen.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                         Progress_Login_in.setVisibility(View.VISIBLE);
                         btn_change.setVisibility(View.INVISIBLE);
                         getCovidCountryWiseApi(country.getText().toString().trim());
@@ -299,8 +310,10 @@ public class HomeDashboardScreen extends AppCompatActivity {
                         AutoTransition autoTransition = new AutoTransition();
                         TransitionManager.beginDelayedTransition(first_card, autoTransition);
                         Country_flag.setVisibility(View.GONE);
-
                         spin_kit_flag.setVisibility(View.VISIBLE);
+                        infected_number.setText("");
+                        recover_county_number.setText("");
+                        death_number_country.setText("");
 
                     }
                 }
@@ -310,6 +323,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
 
 
     }
+
 
     private void configureToolbar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
@@ -359,22 +373,20 @@ public class HomeDashboardScreen extends AppCompatActivity {
                     Log.i("Response", response.toString());
                     myResponse = response.body().string();
                     String countryjson = Country;
-                    if (countryjson.equalsIgnoreCase("india"))
-                    {
+                    if (countryjson.equalsIgnoreCase("india")) {
 
                         HomeDashboardScreen.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                             //   CityWiseList.setVisibility(View.VISIBLE);
+                                CityWiseList.setVisibility(View.VISIBLE);
                             }
                         });
 
-                    }
-                    else {
+                    } else {
                         HomeDashboardScreen.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                              //  CityWiseList.setVisibility(View.GONE);
+                                CityWiseList.setVisibility(View.GONE);
                             }
                         });
                     }
@@ -396,9 +408,9 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                         try {
 
 
-
                                             infected_number.setText(O.getString("TotalConfirmed"));
                                             int totalconfirmedint = Integer.parseInt(O.getString("TotalConfirmed"));
+
                                             number = infected_number.getText().toString();
                                             amount = Double.parseDouble(number);
                                             formatter = new DecimalFormat("#,###");
@@ -894,6 +906,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
         set1.setLineWidth(3f);
         set1.setDrawFilled(true);
         set1.setDrawValues(false);
+        set1.setDrawCircles(false);
 
 
         set2.setColor(Color.parseColor("#13BD86"));
@@ -901,12 +914,14 @@ public class HomeDashboardScreen extends AppCompatActivity {
         set2.setLineWidth(3f);
         set2.setCircleColors(Color.BLACK);
         set2.setDrawValues(false);
+        set2.setDrawCircles(false);
 
         set3.setColor(Color.parseColor("#F65051"));
         set3.setCircleColors(Color.BLACK);
         set3.setFillAlpha(110);
         set3.setLineWidth(3f);
         set3.setDrawValues(false);
+        set3.setDrawCircles(false);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
@@ -947,21 +962,25 @@ public class HomeDashboardScreen extends AppCompatActivity {
                     myResponse = response.body().string();
                     try {
                         JSONArray jsonArray = new JSONArray(myResponse);
-                        for (int i = 0; i < jsonArray.length(); i = i + 30) {
-                            JSONObject O = jsonArray.getJSONObject(i);
+                        for (int i = 0; i < jsonArray.length(); i++) {
 
+                            JSONObject O = jsonArray.getJSONObject(i);
                             Log.i("Date", O.getString("Date"));
                             int confirmed = Integer.parseInt(O.getString("Confirmed"));
                             int recovered = Integer.parseInt(O.getString("Recovered"));
                             int death = Integer.parseInt(O.getString("Deaths"));
-                            while (count != 10) {
-                                yValues.add(new Entry(count, confirmed));
-                                yRecovered.add((new Entry(count, recovered)));
-                                yDeaths.add(new Entry(count, death));
-                                break;
-                            }
+                            yValues.add(new Entry(i, confirmed));
+                            yRecovered.add((new Entry(i, recovered)));
+                            yDeaths.add(new Entry(i, death));
 
-                            count++;
+//                            while (count != 10) {
+//                                yValues.add(new Entry(count, confirmed));
+//                                yRecovered.add((new Entry(count, recovered)));
+//                                yDeaths.add(new Entry(count, death));
+//                                break;
+//                            }
+//
+//                            count++;
 
                         }
                         LineChart(yValues, yRecovered, yDeaths);
@@ -1003,21 +1022,26 @@ public class HomeDashboardScreen extends AppCompatActivity {
                     myResponse = response.body().string();
                     try {
                         JSONArray jsonArray = new JSONArray(myResponse);
-                        for (int i = 0; i < jsonArray.length(); i = i + 30) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject O = jsonArray.getJSONObject(i);
 
                             Log.i("Date", O.getString("Date"));
                             int confirmed = Integer.parseInt(O.getString("Confirmed"));
                             int recovered = Integer.parseInt(O.getString("Recovered"));
                             int death = Integer.parseInt(O.getString("Deaths"));
-                            while (count != 10) {
-                                yValues.add(new Entry(count, confirmed));
-                                yRecovered.add((new Entry(count, recovered)));
-                                yDeaths.add(new Entry(count, death));
-                                break;
-                            }
+                            yValues.add(new Entry(i, confirmed));
+                            yRecovered.add((new Entry(i, recovered)));
+                            yDeaths.add(new Entry(i, death));
 
-                            count++;
+
+//                            while (count != 10) {
+//                                yValues.add(new Entry(count, confirmed));
+//                                yRecovered.add((new Entry(count, recovered)));
+//                                yDeaths.add(new Entry(count, death));
+//                                break;
+//                            }
+//
+//                            count++;
 
                         }
                         LineChart(yValues, yRecovered, yDeaths);
@@ -1074,13 +1098,29 @@ public class HomeDashboardScreen extends AppCompatActivity {
         alertDialog.setCanceledOnTouchOutside(false);
         Close = alertView.findViewById(R.id.Close);
 
+        search_city = alertView.findViewById(R.id.search_city);
+        search_city.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+
+
         Close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
             }
         });
-        spin_kit_alert=alertView.findViewById(R.id.spin_kit_alert);
+        spin_kit_alert = alertView.findViewById(R.id.spin_kit_alert);
         Sprite doubleBouncerflag = new WanderingCubes();
         spin_kit_alert.setIndeterminateDrawable(doubleBouncerflag);
 
@@ -1089,6 +1129,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(new LinearLayoutManager(HomeDashboardScreen.this));
         listItems = new ArrayList<>();
+
         OkHttpClient client = new OkHttpClient();
         okhttp3.Request request = new okhttp3.Request.Builder()
                 .url("https://api.covidindiatracker.com/state_data.json")
@@ -1109,6 +1150,8 @@ public class HomeDashboardScreen extends AppCompatActivity {
                         JSONArray jsonArray = new JSONArray(myResponse);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject O = jsonArray.getJSONObject(i);
+
+
                             ListItem listItem = new ListItem(O.getString("state"), O.getString("confirmed"), O.getString("recovered"), O.getString("deaths"));
                             listItems.add(listItem);
                         }

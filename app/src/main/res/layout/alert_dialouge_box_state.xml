@@ -2,7 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="320dp"
     android:layout_margin="10dp">
 
 
@@ -10,6 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardCornerRadius="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/State_wise_txt"
@@ -31,11 +38,25 @@
             android:padding="10dp"
             android:src="@drawable/ic_baseline_close_24" />
 
+        <SearchView
+            android:id="@+id/search_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/rounded_gradient_search_oval"
+            android:iconifiedByDefault="false"
+            android:queryHint="Search State ..."
+
+            />
+
+
         <LinearLayout
             android:id="@+id/LL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="130dp"
 
             android:orientation="horizontal">
 
@@ -47,7 +68,7 @@
                 android:background="@drawable/rounded_gradient_state"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="State"
+                android:text="States"
                 android:textColor="#fff"
                 android:textStyle="bold" />
 
@@ -107,15 +128,16 @@
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_marginTop="130dp" />
+            android:layout_marginTop="180dp"
+            android:scrollbars="vertical"/>
 
         <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/spin_kit_alert"
             style="@style/SpinKitView.Large.FoldingCube"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="130dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="190dp"
             app:SpinKit_Color="#9156EC" />
 
     </androidx.cardview.widget.CardView>
