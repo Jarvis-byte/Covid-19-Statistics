@@ -3,4 +3,7 @@
     <color name="colorPrimary">#00afef</color>
     <color name="colorPrimaryDark">#039be5</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="refresh_progress_1">#00afef</color>
+    <color name="refresh_progress_2">#1577ca</color>
+    <color name="refresh_progress_3">#ff715e</color>
 </resources>

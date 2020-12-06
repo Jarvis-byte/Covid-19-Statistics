@@ -94,7 +94,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
 
 
         holder.death_num.setText(listItem.getDeath());
-        number = listItem.getRecovered();
+        number = listItem.getDeath();
         amount = Double.parseDouble(number);
         formatter = new DecimalFormat("#,###");
         formatted = formatter.format(amount);

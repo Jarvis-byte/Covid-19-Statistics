@@ -27,6 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
@@ -106,7 +107,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
         CityWiseList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showGatePassDetailDialog();
+                showStateWiseDialog();
             }
         });
 
@@ -323,7 +324,6 @@ public class HomeDashboardScreen extends AppCompatActivity {
 
 
     }
-
 
     private void configureToolbar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
@@ -1087,7 +1087,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
 
     }
 
-    public void showGatePassDetailDialog() {
+    public void showStateWiseDialog() {
         final AlertDialog.Builder alert = new AlertDialog.Builder(HomeDashboardScreen.this, R.style.CustomAlertDialog);
 
         View alertView = (HomeDashboardScreen.this).getLayoutInflater().inflate(R.layout.alert_dialouge_box_state, null);
