@@ -27,7 +27,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
@@ -628,7 +627,6 @@ public class HomeDashboardScreen extends AppCompatActivity {
                                     HomeDashboardScreen.this.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-
                                             GlideToVectorYou.justLoadImage(HomeDashboardScreen.this, Uri.parse(flag_png), Country_flag);
                                             AutoTransition autoTransition = new AutoTransition();
                                             TransitionManager.beginDelayedTransition(card_under_first_card, autoTransition);
@@ -1131,8 +1129,8 @@ public class HomeDashboardScreen extends AppCompatActivity {
         listItems = new ArrayList<>();
 
         OkHttpClient client = new OkHttpClient();
-        okhttp3.Request request = new okhttp3.Request.Builder()
-                .url("https://api.covidindiatracker.com/state_data.json")
+        final okhttp3.Request request = new okhttp3.Request.Builder()
+                .url("https://api.covid19india.org/data.json")
                 .get()
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -1147,11 +1145,11 @@ public class HomeDashboardScreen extends AppCompatActivity {
                     myResponse = response.body().string();
                     Log.i("JSON DATA", myResponse);
                     try {
-                        JSONArray jsonArray = new JSONArray(myResponse);
-                        for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = new JSONObject(myResponse);
+                        JSONArray jsonArray = jsonObject.getJSONArray("statewise");
+
+                        for (int i = 1; i < jsonArray.length(); i++) {
                             JSONObject O = jsonArray.getJSONObject(i);
-
-
                             ListItem listItem = new ListItem(O.getString("state"), O.getString("confirmed"), O.getString("recovered"), O.getString("deaths"));
                             listItems.add(listItem);
                         }
