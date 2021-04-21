@@ -16,8 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
-
-        <activity android:name=".HomeDashboardScreen"></activity>
+        <activity android:name=".WebViewActivity"></activity>
+        <activity android:name=".HomeDashboardScreen" />
         <activity android:name=".GetStartedScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

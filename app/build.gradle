@@ -31,6 +31,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -77,4 +78,11 @@ dependencies {
 
     //Swipe Refresh Layout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    //Bottom Nav Customised
+    implementation 'com.etebarian:meow-bottom-navigation-java:1.2.0'
+
+    //SwipeCard
+    implementation 'com.yuyakaido.android:card-stack-view:2.3.4'
+
 }
