@@ -43,7 +43,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
         fragment_container.setUserInputEnabled(false);
         bottom_navigation.add(new MeowBottomNavigation.Model(0, R.drawable.news));
         bottom_navigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_baseline_home_24)); //statistics
-        bottom_navigation.add(new MeowBottomNavigation.Model(2, R.drawable.syringe));
+        bottom_navigation.add(new MeowBottomNavigation.Model(2, R.drawable.fever));
 
 
         bottom_navigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
