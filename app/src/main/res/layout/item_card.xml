@@ -24,11 +24,12 @@
             android:layout_marginTop="10dp"
             android:padding="10dp" />
         <ScrollView
-            android:id="@+id/parentCard"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical">
             <LinearLayout
+                android:id="@+id/parentCard"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">

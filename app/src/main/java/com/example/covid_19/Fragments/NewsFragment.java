@@ -200,6 +200,7 @@ public class NewsFragment extends Fragment {
                             public void run() {
                                 spin_kit_splash_Screen.setVisibility(View.INVISIBLE);
                                 rewind_btn.setEnabled(true);
+                                cardStackView.setVisibility(View.VISIBLE);
                                 adapter = new CardStackAdapter(getContext(), items);
                                 cardStackView.setAdapter(adapter);
 

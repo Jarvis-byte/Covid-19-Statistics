@@ -38,9 +38,9 @@ public class HomeDashboardScreen extends AppCompatActivity {
 
         /** Add menu Item for bottom Nav*/
         fragment_container = findViewById(R.id.fragment_container);
-
-        bottom_navigation.add(new MeowBottomNavigation.Model(0, R.drawable.ic_baseline_home_24)); //statistics
-        bottom_navigation.add(new MeowBottomNavigation.Model(1, R.drawable.news));
+        fragment_container.setUserInputEnabled(true);
+        bottom_navigation.add(new MeowBottomNavigation.Model(0, R.drawable.news));
+        bottom_navigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_baseline_home_24)); //statistics
         bottom_navigation.add(new MeowBottomNavigation.Model(2, R.drawable.syringe));
 
 
@@ -50,15 +50,14 @@ public class HomeDashboardScreen extends AppCompatActivity {
 
                 switch (item.getId()) {
                     case 0:
-                        fragment_container.setCurrentItem(0, false);
+                        fragment_container.setCurrentItem(1, false);
                         break;
                     case 1:
-                        fragment_container.setCurrentItem(1, false);
+                        fragment_container.setCurrentItem(0, false);
                         break;
                     case 2:
                         fragment_container.setCurrentItem(2, false);
                         break;
-
                 }
             }
         });
@@ -70,11 +69,11 @@ public class HomeDashboardScreen extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         bottom_navigation.getModels().get(0).getId();
-                        bottom_navigation.show(0, true);
+                        bottom_navigation.show(1, true);
                         break;
                     case 1:
                         bottom_navigation.getModels().get(1).getId();
-                        bottom_navigation.show(1, true);
+                        bottom_navigation.show(0, true);
                         break;
                     case 2:
                         bottom_navigation.getModels().get(2);
@@ -86,7 +85,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
 
         });
         setupViewPager(fragment_container);
-        bottom_navigation.show(0, true);
+        bottom_navigation.show(1, true);
         bottom_navigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
