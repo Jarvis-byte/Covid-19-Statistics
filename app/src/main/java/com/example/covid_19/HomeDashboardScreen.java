@@ -2,6 +2,7 @@ package com.example.covid_19;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.ImageView;
 
@@ -13,7 +14,7 @@ import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.covid_19.Adapters.ViewPagerAdapter;
 import com.example.covid_19.Fragments.NewsFragment;
 import com.example.covid_19.Fragments.StatisticsFragment;
-import com.example.covid_19.Fragments.VaccinationFragment;
+import com.example.covid_19.Fragments.SymptomsFragment;
 
 public class HomeDashboardScreen extends AppCompatActivity {
 
@@ -21,7 +22,7 @@ public class HomeDashboardScreen extends AppCompatActivity {
     MeowBottomNavigation bottom_navigation;
     NewsFragment newsFragment;
     StatisticsFragment statisticsFragment;
-    VaccinationFragment vaccinationFragment;
+    SymptomsFragment symptomsFragment;
     private Toolbar toolbar;
     private ViewPager2 fragment_container;
 
@@ -34,11 +35,12 @@ public class HomeDashboardScreen extends AppCompatActivity {
         toolbar_image = findViewById(R.id.toolbar_image);
 //        ImageSlider imageSlider = findViewById(R.id.slider);
 //        mChart = findViewById(R.id.lineChart);
-
+        String appId = BuildConfig.APPLICATION_ID;
+        Log.i("App-Id", appId);
 
         /** Add menu Item for bottom Nav*/
         fragment_container = findViewById(R.id.fragment_container);
-        fragment_container.setUserInputEnabled(true);
+        fragment_container.setUserInputEnabled(false);
         bottom_navigation.add(new MeowBottomNavigation.Model(0, R.drawable.news));
         bottom_navigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_baseline_home_24)); //statistics
         bottom_navigation.add(new MeowBottomNavigation.Model(2, R.drawable.syringe));
@@ -112,11 +114,11 @@ public class HomeDashboardScreen extends AppCompatActivity {
 
         statisticsFragment = new StatisticsFragment();
         newsFragment = new NewsFragment();
-        vaccinationFragment = new VaccinationFragment();
+        symptomsFragment = new SymptomsFragment();
 
         adapter.addFragment(statisticsFragment);
         adapter.addFragment(newsFragment);
-        adapter.addFragment(vaccinationFragment);
+        adapter.addFragment(symptomsFragment);
 
 
         viewPager.setAdapter(adapter);

@@ -364,7 +364,7 @@ public class StatisticsFragment extends Fragment {
                 if (response.isSuccessful()) {
                     final ArrayList<PieEntry> TotalConfirmed = new ArrayList<>();
 
-                    Log.i("Response", response.toString());
+                  //  Log.i("Response", response.toString());
                     myResponse = response.body().string();
                     String countryjson = Country;
                     if (countryjson.equalsIgnoreCase("india")) {
@@ -489,7 +489,7 @@ public class StatisticsFragment extends Fragment {
         Country_flag.setVisibility(View.GONE);
         spin_kit_flag.setVisibility(View.VISIBLE);
 
-        Log.i("Flag Function", "Called");
+      //  Log.i("Flag Function", "Called");
 
         OkHttpClient client = new OkHttpClient();
         okhttp3.Request request = new okhttp3.Request.Builder()
@@ -537,7 +537,7 @@ public class StatisticsFragment extends Fragment {
                                     });
 
 
-                                    Log.i("Flag link", flag_png);
+                                //    Log.i("Flag link", flag_png);
                                     break;
                                 }
 
@@ -562,7 +562,7 @@ public class StatisticsFragment extends Fragment {
 //                                            .into(Country_flag);
                                 }
                             });
-                            Log.i("Flag link", flag_png);
+                         //   Log.i("Flag link", flag_png);
                         }
 
 
@@ -591,7 +591,7 @@ public class StatisticsFragment extends Fragment {
     }
 
     public void getFlagIndiaApi() {
-        Log.i("Flag Function", "Called");
+      //  Log.i("Flag Function", "Called");
 
         OkHttpClient client = new OkHttpClient();
         okhttp3.Request request = new okhttp3.Request.Builder()
@@ -631,7 +631,7 @@ public class StatisticsFragment extends Fragment {
                                     });
 
 
-                                    Log.i("Flag link", flag_png);
+                                  //  Log.i("Flag link", flag_png);
                                     break;
                                 }
 
@@ -649,7 +649,7 @@ public class StatisticsFragment extends Fragment {
                                     spin_kit_flag.setVisibility(View.GONE);
                                 }
                             });
-                            Log.i("Flag link", flag_png);
+                         //   Log.i("Flag link", flag_png);
                         }
 
 
@@ -683,7 +683,7 @@ public class StatisticsFragment extends Fragment {
                     final ArrayList<PieEntry> TotalConfirmed = new ArrayList<>();
                     final ArrayList<PieEntry> TotalRecovered = new ArrayList<>();
                     final ArrayList<PieEntry> TotalDeath = new ArrayList<>();
-                    Log.i("Response", response.toString());
+         //           Log.i("Response", response.toString());
                     myResponse = response.body().string();
 
                     try {
@@ -860,8 +860,8 @@ public class StatisticsFragment extends Fragment {
                             }
                         });
 
-                        Log.i("NewConfirmed", Global.getString("NewConfirmed"));
-                        Log.i("TotalConfirmed", Global.getString("TotalConfirmed"));
+                     //   Log.i("NewConfirmed", Global.getString("NewConfirmed"));
+                     //   Log.i("TotalConfirmed", Global.getString("TotalConfirmed"));
                     } catch (Exception e) {
 
                     }
@@ -958,7 +958,7 @@ public class StatisticsFragment extends Fragment {
                         for (int i = 0; i < jsonArray.length(); i++) {
 
                             JSONObject O = jsonArray.getJSONObject(i);
-                            Log.i("Date", O.getString("Date"));
+                       //     Log.i("Date", O.getString("Date"));
                             int confirmed = Integer.parseInt(O.getString("Confirmed"));
                             int recovered = Integer.parseInt(O.getString("Recovered"));
                             int death = Integer.parseInt(O.getString("Deaths"));
@@ -1018,7 +1018,7 @@ public class StatisticsFragment extends Fragment {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject O = jsonArray.getJSONObject(i);
 
-                            Log.i("Date", O.getString("Date"));
+                        //    Log.i("Date", O.getString("Date"));
                             int confirmed = Integer.parseInt(O.getString("Confirmed"));
                             int recovered = Integer.parseInt(O.getString("Recovered"));
                             int death = Integer.parseInt(O.getString("Deaths"));
@@ -1138,7 +1138,7 @@ public class StatisticsFragment extends Fragment {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     myResponse = response.body().string();
-                    Log.i("JSON DATA", myResponse);
+                //    Log.i("JSON DATA", myResponse);
                     try {
                         JSONObject jsonObject = new JSONObject(myResponse);
                         JSONArray jsonArray = jsonObject.getJSONArray("statewise");
@@ -1175,7 +1175,7 @@ public class StatisticsFragment extends Fragment {
         private String[] mValues;
 
         public MyXAxisValueFormater(String[] mValues) {
-            Log.i("MYXAXisvalueFormater", "Called");
+         //   Log.i("MYXAXisvalueFormater", "Called");
             this.mValues = mValues;
         }
 

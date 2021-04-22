@@ -51,7 +51,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
         holder.parentCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "Clicked", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(mContext, "Clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, WebViewActivity.class);
                 intent.putExtra("EXTRA_SESSION_ID", items.get(position).getLink());
                 mContext.startActivity(intent);

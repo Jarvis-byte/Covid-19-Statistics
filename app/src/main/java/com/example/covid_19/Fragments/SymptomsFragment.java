@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import com.example.covid_19.R;
 
 
-public class VaccinationFragment extends Fragment {
+public class SymptomsFragment extends Fragment {
 
 
     @Override

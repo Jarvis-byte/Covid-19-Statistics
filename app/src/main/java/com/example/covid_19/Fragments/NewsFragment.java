@@ -9,6 +9,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -53,6 +54,7 @@ public class NewsFragment extends Fragment {
     private CardStackAdapter adapter;
     private String myResponse;
     ProgressBar spin_kit_splash_Screen;
+    TextView No_News_Text;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class NewsFragment extends Fragment {
         rewind_btn = view.findViewById(R.id.rewind_btn);
         spin_kit_splash_Screen = view.findViewById(R.id.spin_kit_splash_Screen);
         spin_kit_splash_Screen.setVisibility(View.VISIBLE);
+        No_News_Text=view.findViewById(R.id.No_News_Text);
         manager = new CardStackLayoutManager(getActivity(), new CardStackListener() {
             @Override
             public void onCardDragging(Direction direction, float ratio) {
@@ -82,8 +85,9 @@ public class NewsFragment extends Fragment {
                 }
 
                 // Paginating
-                if (manager.getTopPosition() == adapter.getItemCount() - 5) {
-                    Toast.makeText(getActivity(), "No More News", Toast.LENGTH_SHORT).show();
+                if (manager.getTopPosition() == adapter.getItemCount()) {
+                    No_News_Text.setVisibility(View.VISIBLE);
+                    cardStackView.setVisibility(View.INVISIBLE);
                 }
 
             }
@@ -150,8 +154,17 @@ public class NewsFragment extends Fragment {
                 cardStackLayoutManager2.setOverlayInterpolator(new LinearInterpolator());
                 cardStackLayoutManager2.setRewindAnimationSetting(settings);
                 cardStackView.setLayoutManager(cardStackLayoutManager2);
+
+                if (cardStackView.getVisibility()==View.INVISIBLE)
+                {
+                    cardStackView.setVisibility(View.VISIBLE);
+                }
+                if (cardStackLayoutManager2.getTopPosition() == adapter.getItemCount()) {
+                    No_News_Text.setVisibility(View.VISIBLE);
+                    cardStackView.setVisibility(View.INVISIBLE);
+                }
                 cardStackView.rewind();
-                Log.i("REWIND", "Rewinding");
+                //Log.i("REWIND", "Rewinding");
             }
         });
 
@@ -193,8 +206,11 @@ public class NewsFragment extends Fragment {
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                        Log.i("Image", jsonObject1.getString("urlToImage"));
-                        items.add(new NewsItems(jsonObject1.getString("title"), jsonObject1.getString("content")+"\n\n....Click to Know More ", jsonObject1.getString("link"),jsonObject1.getString("urlToImage"),"Source: "+jsonObject1.getString("reference"),jsonObject1.getString("pubDate")));
+                        String context =  jsonObject1.getString("content");
+                        String [] splitcontext = context.split("\\[");
+
+                        Log.i("MainNews",splitcontext[0]);
+                        items.add(new NewsItems(jsonObject1.getString("title"), splitcontext[0]+"\n\n....Click to Know More ", jsonObject1.getString("link"),jsonObject1.getString("urlToImage"),"Source: "+jsonObject1.getString("reference"),jsonObject1.getString("pubDate")));
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

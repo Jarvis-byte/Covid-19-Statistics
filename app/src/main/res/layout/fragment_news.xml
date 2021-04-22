@@ -16,6 +16,20 @@
         android:layout_marginBottom="30dp"
         app:SpinKit_Color="#9156EC" />
 
+    <TextView
+        android:id="@+id/No_News_Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/aldrich"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="No More News !!! \n \nPlease Press Rewind Button To Read It Again"
+        android:visibility="invisible"
+        android:textColor="#111"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
 
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/card_stack_view"
