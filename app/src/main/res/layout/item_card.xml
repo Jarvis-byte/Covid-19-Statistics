@@ -1,52 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/parentCard"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/selectableItemBackground"
     android:foreground="?attr/selectableItemBackground"
-    app:cardUseCompatPadding="true"
-    app:cardPreventCornerOverlap="false"
+    app:cardBackgroundColor="#00afef"
     app:cardCornerRadius="8dp"
-    app:cardBackgroundColor="#00afef">
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
         android:background="@drawable/gradient_item_card"
-        >
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="#111"
-            android:text="Title"
-            android:layout_gravity="center"
-            android:textSize="26sp"/>
-
-        <TextView
-            android:id="@+id/content"
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:padding="10dp" />
+        <ScrollView
+            android:id="@+id/parentCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:text="bcabjkacjkabcjknajhjahiavashsaksdahimndncklnc"
-            android:layout_marginTop="20dp"
-            android:textSize="18sp"/>
+            android:scrollbars="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/alegreya_sc_bold"
+                    android:padding="5dp"
+                    android:text="Title"
+                    android:textColor="#111"
+                    android:textSize="21sp"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/item_city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/alice"
+                    android:padding="5dp"
+                    android:text="bcabjkacjkabcjknajhjahiavashsaksdahimndncklnc"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </ScrollView>
+
+
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="10dp"
+        android:text="@string/app_name"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
 </androidx.cardview.widget.CardView>

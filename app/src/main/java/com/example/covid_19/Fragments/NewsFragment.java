@@ -5,7 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -16,10 +19,13 @@ import com.example.covid_19.Adapters.CardStackAdapter;
 import com.example.covid_19.Adapters.CardStackCallback;
 import com.example.covid_19.ModelClass.NewsItems;
 import com.example.covid_19.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.Direction;
+import com.yuyakaido.android.cardstackview.Duration;
+import com.yuyakaido.android.cardstackview.RewindAnimationSetting;
 import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeableMethod;
 
@@ -40,11 +46,13 @@ import okhttp3.Response;
 
 public class NewsFragment extends Fragment {
     private static final String TAG = "NewsFragment";
+    CardStackView cardStackView;
+    List<NewsItems> items = new ArrayList<>();
+    FloatingActionButton rewind_btn;
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
     private String myResponse;
-    CardStackView cardStackView;
-    List<NewsItems> items = new ArrayList<>();
+    ProgressBar spin_kit_splash_Screen;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,8 +60,10 @@ public class NewsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
-        cardStackView= view.findViewById(R.id.card_stack_view);
-
+        cardStackView = view.findViewById(R.id.card_stack_view);
+        rewind_btn = view.findViewById(R.id.rewind_btn);
+        spin_kit_splash_Screen = view.findViewById(R.id.spin_kit_splash_Screen);
+        spin_kit_splash_Screen.setVisibility(View.VISIBLE);
         manager = new CardStackLayoutManager(getActivity(), new CardStackListener() {
             @Override
             public void onCardDragging(Direction direction, float ratio) {
@@ -63,22 +73,18 @@ public class NewsFragment extends Fragment {
             @Override
             public void onCardSwiped(Direction direction) {
                 Log.d(TAG, "onCardSwiped: p=" + manager.getTopPosition() + " d=" + direction);
-                if (direction == Direction.Right) {
-                    Toast.makeText(getActivity(), "Direction Right", Toast.LENGTH_SHORT).show();
-                }
                 if (direction == Direction.Top) {
                     Toast.makeText(getActivity(), "Direction Top", Toast.LENGTH_SHORT).show();
                 }
-                if (direction == Direction.Left) {
 
-
-                }
                 if (direction == Direction.Bottom) {
                     Toast.makeText(getActivity(), "Direction Bottom", Toast.LENGTH_SHORT).show();
                 }
 
                 // Paginating
-
+                if (manager.getTopPosition() == adapter.getItemCount() - 5) {
+                    Toast.makeText(getActivity(), "No More News", Toast.LENGTH_SHORT).show();
+                }
 
             }
 
@@ -112,13 +118,43 @@ public class NewsFragment extends Fragment {
         manager.setSwipeThreshold(0.3f);
         manager.setMaxDegree(20.0f);
         manager.setDirections(Direction.FREEDOM);
+        manager.setCanScrollVertical(false);
         manager.setCanScrollHorizontal(true);
         manager.setSwipeableMethod(SwipeableMethod.Manual);
         manager.setOverlayInterpolator(new LinearInterpolator());
         cardStackView.setLayoutManager(manager);
         cardStackView.setItemAnimator(new DefaultItemAnimator());
-        adapter = new CardStackAdapter(getContext(),addList());
+        adapter = new CardStackAdapter(getContext(), addList());
         cardStackView.setAdapter(adapter);
+
+        rewind_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RewindAnimationSetting settings = new RewindAnimationSetting.Builder()
+                        .setDirection(Direction.Bottom)
+                        .setDuration(Duration.Normal.duration)
+                        .setInterpolator(new AccelerateInterpolator())
+                        .build();
+
+                CardStackLayoutManager cardStackLayoutManager2 = new CardStackLayoutManager(getContext());
+                cardStackLayoutManager2.setStackFrom(StackFrom.None);
+                cardStackLayoutManager2.setVisibleCount(3);
+                cardStackLayoutManager2.setTranslationInterval(8.0f);
+                cardStackLayoutManager2.setScaleInterval(0.95f);
+                cardStackLayoutManager2.setSwipeThreshold(0.3f);
+                cardStackLayoutManager2.setMaxDegree(20.0f);
+                cardStackLayoutManager2.setDirections(Direction.FREEDOM);
+                cardStackLayoutManager2.setCanScrollVertical(false);
+                cardStackLayoutManager2.setCanScrollHorizontal(true);
+                cardStackLayoutManager2.setSwipeableMethod(SwipeableMethod.Manual);
+                cardStackLayoutManager2.setOverlayInterpolator(new LinearInterpolator());
+                cardStackLayoutManager2.setRewindAnimationSetting(settings);
+                cardStackView.setLayoutManager(cardStackLayoutManager2);
+                cardStackView.rewind();
+                Log.i("REWIND", "Rewinding");
+            }
+        });
+
         return view;
     }
 
@@ -157,13 +193,16 @@ public class NewsFragment extends Fragment {
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                        Log.i("NEWS",jsonObject1.getString("title"));
-                        items.add(new NewsItems(jsonObject1.getString("title"), jsonObject1.getString("content"), jsonObject1.getString("link")));
+                        Log.i("Image", jsonObject1.getString("urlToImage"));
+                        items.add(new NewsItems(jsonObject1.getString("title"), jsonObject1.getString("content")+"\n\n....Click to Know More ", jsonObject1.getString("link"),jsonObject1.getString("urlToImage"),"Source: "+jsonObject1.getString("reference"),jsonObject1.getString("pubDate")));
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                adapter = new CardStackAdapter(getContext(),items);
+                                spin_kit_splash_Screen.setVisibility(View.INVISIBLE);
+                                rewind_btn.setEnabled(true);
+                                adapter = new CardStackAdapter(getContext(), items);
                                 cardStackView.setAdapter(adapter);
+
                             }
                         });
                     }
