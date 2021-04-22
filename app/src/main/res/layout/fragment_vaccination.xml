@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,18 +14,106 @@
             android:id="@+id/txt_know"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/alike"
             android:gravity="center"
-            android:text="What you need to know\n
-✔ Anyone can have mild to severe symptoms.\n
-✔ Older adults and people who have severe underlying medical conditions like heart or lung disease or diabetes seem to be at higher risk for developing more serious complications from COVID-19 illness." />
+            android:text="What you need to know"
+            android:textColor="#111"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="250dp"
+            android:layout_height="1dp"
+            android:layout_below="@+id/txt_know"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/black" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/txt_points"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            android:layout_below="@+id/txt_know"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+
+            android:backgroundTint="#FCF2E0">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alike"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="✔Anyone can have mild to severe symptoms.\n\n✔Older adults and people who have severe underlying medical conditions like heart or lung disease or diabetes seem to be at higher risk for developing more serious complications from COVID-19 illness."
+                android:textColor="#111"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+        </androidx.cardview.widget.CardView>
+
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="400dp"
+            android:layout_height="1dp"
+            android:layout_below="@+id/txt_points"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/black" />
+
+        <TextView
+            android:id="@+id/caused_later"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view2"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/alike"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="* Symptoms can range from mild to severe illness, and appear 2–14 days after you
+are exposed to the virus that causes COVID-19."
+            android:textColor="#ff3b3b"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="400dp"
+            android:layout_height="1dp"
+            android:layout_below="@+id/caused_later"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/black" />
+
+        <TextView
+            android:id="@+id/txt_pic_abt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view3"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="@font/alike"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Know the symptoms of COVID-19, which can include the following:"
+            android:textColor="#111"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/img1"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_below="@+id/txt_know"
-            android:layout_marginTop="20dp"
+            android:layout_below="@+id/txt_pic_abt"
+            android:layout_marginTop="10dp"
             android:src="@drawable/sym1" />
 
         <ImageView
@@ -42,22 +131,24 @@
             android:layout_below="@+id/img2"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
+
             <Space
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1" >
-            </Space>
+                android:layout_weight="1"></Space>
+
             <ImageView
                 android:id="@+id/img_LL_1"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
                 android:layout_below="@+id/img2"
                 android:src="@drawable/sym3" />
+
             <Space
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1" >
-            </Space>
+                android:layout_weight="1"></Space>
+
             <ImageView
                 android:id="@+id/img_LL_2"
                 android:layout_width="wrap_content"
@@ -65,11 +156,11 @@
                 android:layout_below="@+id/img2"
                 android:layout_toRightOf="@+id/img3"
                 android:src="@drawable/sym5" />
+
             <Space
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1" >
-            </Space>
+                android:layout_weight="1"></Space>
         </LinearLayout>
 
 
@@ -80,6 +171,66 @@
             android:layout_below="@+id/img3"
             android:layout_marginTop="20dp"
             android:src="@drawable/sym4" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="400dp"
+            android:layout_height="1dp"
+            android:layout_below="@+id/img4"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:background="@android:color/black" />
+
+        <TextView
+            android:id="@+id/emergency_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view4"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="@font/alike"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Seek medical care immediately if someone has Emergency Warning Signs of COVID-19"
+            android:textColor="#ff3b3b"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/view5"
+            android:layout_width="250dp"
+            android:layout_height="1dp"
+            android:layout_below="@+id/emergency_heading"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/black" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            android:layout_below="@+id/view5"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="5dp"
+            android:backgroundTint="#FCF2E0">
+            <TextView
+                android:id="@+id/what_to_do"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view5"
+                android:fontFamily="@font/alike"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="• Trouble breathing\n• Inability to wake or stay awake\n• Persistent pain or pressure in the chest\n*Pale, gray, or blue-colored skin, lips, or nailbeds, depending on skin tone\n• New confusion"
+                android:textColor="#111"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+        </androidx.cardview.widget.CardView>
+
 
     </RelativeLayout>
 </ScrollView>
