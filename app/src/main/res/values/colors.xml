@@ -6,4 +6,6 @@
     <color name="refresh_progress_1">#00afef</color>
     <color name="refresh_progress_2">#1577ca</color>
     <color name="refresh_progress_3">#ff715e</color>
+    <color name="ripple_color_light">#BB1D11</color>
+    <color name="background">#116BF1</color>
 </resources>
