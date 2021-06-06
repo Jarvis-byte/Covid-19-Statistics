@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/MainRelativeLayout"
     android:layout_width="match_parent"
@@ -34,14 +35,26 @@
         android:textStyle="bold"
         android:visibility="gone" />
 
-    <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/spin_kit_splash_Screen"
         style="@style/SpinKitView.Large.WanderingCubes"
-        android:layout_width="wrap_content"
+        android:layout_width="52dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/madewith"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="-55dp"
+        app:SpinKit_Color="#9156EC" />
+
+    <TextView
+        android:id="@+id/madewith"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="160dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="   Made with ❤\n by Arka"
+        android:textColor="#ff0000"
+        android:textSize="15dp"
 
-        app:SpinKit_Color="#9156EC" />
+        />
 </RelativeLayout>
