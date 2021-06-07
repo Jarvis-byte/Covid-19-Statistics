@@ -18,7 +18,7 @@ Some Videos: -
 
 * Splash Screen And Home DashBoard Screen And Charts
 
-![Covid-19-Stats demo](flash_intro.gif)
+![Covid-19-Stats demo](flash_intro[1].gif)
 
 -----------------------------------------------------------------------------------
 
