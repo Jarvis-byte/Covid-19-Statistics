@@ -16,29 +16,29 @@ An android app to track COVID-19 status in India and around the world.
 
 Some Videos: -
 
-* Splash Screen And Home DashBoard Screen And Charts
+* Splash Screen And data related to covid stats.
 
 ![Covid-19-Stats demo](flash_intro[1].gif)
 
 -----------------------------------------------------------------------------------
 
 
-* State Wise Search
+* Data regarding Vaccine availablity for India
 
-![Covid-19-Stats demo](State_Wise_Search.gif)
+![Covid-19-Stats demo](Country_Wise_Search[1].gif)
 
 -----------------------------------------------------------------------------------
 
+* The current covid related news
 
-* Country Wise Search
+![Covid-19-Stats demo](State_Wise_Search[1].gif)
 
-![Covid-19-Stats demo](Country_Wise_Search.gif)
 
 -------------------------------------------------------------------------
 
 # Libraries used: -
 
-* okhttp3:-  For HTTP calls.
+* Retrofit:-  For HTTP calls.
 * Glide:- For Image Parsing.
 * Circular Image:-To show Flags(Country).
 * MPAndroidChart:- For Pie Charts And Line Charts.
